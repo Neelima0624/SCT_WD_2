@@ -1,101 +1,119 @@
+// Grab the display element
 let display = document.getElementById("display");
-let expression = "";
+let expression = "";  // Store the full expression
+let current = "";     // Store the current input
 
+// Update display with current expression + input
 function updateDisplay() {
-    display.textContent = expression || "0";
+  display.textContent = expression + current;
 }
 
-function appendNumber(number) {
-    expression += number;
-    updateDisplay();
-}
-
-function appendDecimal() {
-    if (expression === "" || /[+\-*/]$/.test(expression)) {
-        expression += "0.";
-    } else {
-        // Prevent multiple decimals in the same number
-        const parts = expression.split(/[\+\-\*\/]/);
-        const lastPart = parts[parts.length - 1];
-        if (!lastPart.includes(".")) {
-            expression += ".";
-        }
-    }
-    updateDisplay();
-}
-
-function appendOperator(op) {
-    if (expression === "") return;
-
-    // Replace last operator if multiple in a row
-    if (/[+\-*/]$/.test(expression)) {
-        expression = expression.slice(0, -1);
-    }
-    expression += op;
-    updateDisplay();
-}
-
-function calculate() {
-    if (expression === "") return;
-
-    try {
-        const result = eval(expression);
-        expression = result.toString();
-        updateDisplay();
-    } catch (err) {
-        expression = "Error";
-        updateDisplay();
-        setTimeout(() => {
-            expression = "";
-            updateDisplay();
-        }, 1500);
-    }
-}
-
-function percentage() {
-    try {
-        const result = eval(expression) / 100;
-        expression = result.toString();
-        updateDisplay();
-    } catch (err) {
-        expression = "Error";
-        updateDisplay();
-    }
-}
-
-function toggleSign() {
-    try {
-        const result = eval(expression) * -1;
-        expression = result.toString();
-        updateDisplay();
-    } catch (err) {
-        expression = "Error";
-        updateDisplay();
-    }
-}
-
+// Clear calculator state
 function clearDisplay() {
-    expression = "";
+  expression = "";
+  current = "";
+  updateDisplay();
+}
+function backspace() {
+  if (current.length > 0) {
+    current = current.slice(0, -1);
     updateDisplay();
+  } else if (expression.length > 0) {
+    // If current is empty but expression has content
+    expression = expression.slice(0, -1);
+    updateDisplay();
+  }
 }
 
-// Keyboard support
-document.addEventListener("keydown", (e) => {
-    const key = e.key;
+// Toggle sign (+/-)
+function toggleSign() {
+  if (current) {
+    current = (parseFloat(current) * -1).toString();
+    updateDisplay();
+  }
+}
 
-    if (/[0-9]/.test(key)) {
-        appendNumber(key);
-    } else if (["+", "-", "*", "/"].includes(key)) {
-        appendOperator(key);
-    } else if (key === ".") {
-        appendDecimal();
-    } else if (key === "Enter" || key === "=") {
-        e.preventDefault();
-        calculate();
-    } else if (key === "Escape") {
-        clearDisplay();
-    }
-});
+// Percentage
+function percentage() {
+  if (current) {
+    current = (parseFloat(current) / 100).toString();
+    updateDisplay();
+  }
+}
 
-// Initialize
-updateDisplay();
+// Add number to current input
+function appendNumber(number) {
+  current += number;
+  updateDisplay();
+}
+
+// Add decimal
+function appendDecimal() {
+  if (!current.includes(".")) {
+    current += ".";
+    updateDisplay();
+  }
+}
+
+// Add operator and store expression
+function appendOperator(op) {
+  if (current) {
+    expression += current + op;
+    current = "";
+  } else if (expression && "+-*/".includes(expression.slice(-1))) {
+    // Replace the last operator if pressed again
+    expression = expression.slice(0, -1) + op;
+  }
+  updateDisplay();
+}
+
+// Perform calculation
+function calculate() {
+  if (current) {
+    expression += current;
+  }
+  try {
+    let result = eval(expression);
+    display.textContent = result;
+    current = result.toString();
+    expression = "";
+  } catch {
+    display.textContent = "Error";
+    expression = "";
+    current = "";
+  }
+}
+
+// Toggle sections: Home, About, Contact
+function toggleSection(sectionId) {
+  const sections = document.querySelectorAll(".content");
+  sections.forEach((sec) => {
+    sec.style.display = sec.id === sectionId ? "block" : "none";
+  });
+
+  const links = document.querySelectorAll(".nav-links a");
+  links.forEach((link) => {
+    link.classList.toggle("active", link.id.includes(sectionId.split("-")[0]));
+  });
+}
+
+// Navigation event listeners
+document.getElementById("home-link").addEventListener("click", () => toggleSection("home-section"));
+document.getElementById("about-link").addEventListener("click", () => toggleSection("about-section"));
+document.getElementById("contact-link").addEventListener("click", () => toggleSection("contact-section"));
+
+// Handle contact form submission
+function submitContactForm(e) {
+  e.preventDefault();
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const message = document.getElementById("message").value.trim();
+
+  if (name && email && message) {
+    alert("Thanks for your message, " + name + "!");
+    document.querySelector(".contact-form").reset();
+  }
+}
+
+// Show home section by default
+toggleSection("home-section");
