@@ -1,40 +1,129 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Neelima's Calculator</title>
+  <title>Calculator</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="calculator">
-    <div id="display" class="display">0</div>
-    <div class="buttons">
-      <button onclick="clearDisplay()">AC</button>
-      <button onclick="toggleSign()">+/-</button>
-      <button onclick="percentage()">%</button>
-      <button onclick="appendOperator('/')" class="operator">/</button>
-
-      <button onclick="appendNumber('7')">7</button>
-      <button onclick="appendNumber('8')">8</button>
-      <button onclick="appendNumber('9')">9</button>
-      <button onclick="appendOperator('*')" class="operator">×</button>
-
-      <button onclick="appendNumber('4')">4</button>
-      <button onclick="appendNumber('5')">5</button>
-      <button onclick="appendNumber('6')">6</button>
-      <button onclick="appendOperator('-')" class="operator">-</button>
-
-      <button onclick="appendNumber('1')">1</button>
-      <button onclick="appendNumber('2')">2</button>
-      <button onclick="appendNumber('3')">3</button>
-      <button onclick="appendOperator('+')" class="operator">+</button>
-
-      <button class="zero" onclick="appendNumber('0')">0</button>
-      <button onclick="appendDecimal()">.</button>
-      <button onclick="calculate()" class="equals">=</button>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <h1 class="nav-title">Neelima's Calculator</h1>
+    <div class="nav-links">
+      <a href="#" id="home-link" class="active">Home</a>
+      <a href="#" id="about-link">About</a>
+      <a href="#" id="contact-link">Contact</a>
     </div>
-  </div>
+  </nav>
+
+  <!-- Home Section -->
+  <main class="content" id="home-section">
+    <div class="calculator">
+      <div id="display" class="display">0</div>
+      <div class="buttons">
+        <button onclick="clearDisplay()">AC</button>
+        <button onclick="backspace()">x</button>
+        <button onclick="appendOperator('(')">(</button>
+        <button onclick="appendOperator(')')">)</button>
+        <button onclick="appendNumber('7')">7</button>
+        <button onclick="appendNumber('8')">8</button>
+        <button onclick="appendNumber('9')">9</button>
+        <button onclick="appendOperator('/')" class="operator">/</button>
+        <button onclick="appendNumber('4')">4</button>
+        <button onclick="appendNumber('5')">5</button>
+        <button onclick="appendNumber('6')">6</button>
+        <button onclick="appendOperator('*')" class="operator">×</button>
+         <button onclick="appendNumber('1')">1</button>
+        <button onclick="appendNumber('2')">2</button>
+        <button onclick="appendNumber('3')">3</button>
+        <button onclick="appendOperator('-')" class="operator">-</button>
+<button onclick="appendNumber('0')" class="zero">0</button>
+        <button onclick="appendDecimal()">.</button>
+        <button onclick="calculate()" class="equals">=</button>
+       <button onclick="appendOperator('+')" class="operator">+</button>
+        
+        
+       
+      </div>
+    </div>
+  </main>
+
+  <!-- About Content -->
+     <main class="content" id="about-section" style="display: none;">
+      <div class="about-content">
+        <div class="about-hero">
+            <div class="hero-text">
+                <h2>About This Calculator</h2>
+                <p>A beautifully designed calculator with advanced functionality</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Calculator Interface">
+        </div>
+         <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-calculator"></i>
+                <h3>Basic Operations</h3>
+                <p>Addition, subtraction, multiplication, and division with precision</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-percentage"></i>
+                <h3>Advanced Functions</h3>
+                <p>Percentage calculations and sign toggling</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-keyboard"></i>
+                <h3>Keyboard Support</h3>
+                 <p>Use either mouse or keyboard for input</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Responsive Design</h3>
+                <p>Works perfectly on all device sizes</p>
+            </div>
+        </div>
+         <div class="tech-stack">
+            <h2>Built With Modern Web Technologies</h2>
+            <div class="tech-icons">
+                <div class="tech-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174854.png" alt="HTML5">
+                    <span>HTML5</span>
+                </div>
+                <div class="tech-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/732/732190.png" alt="CSS3">
+                    <span>CSS3</span>
+                </div>
+                <div class="tech-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" alt="JavaScript">
+                    <span>JavaScript</span>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+  <!-- Contact Section -->
+  <main class="content" id="contact-section" style="display: none;">
+    <div class="glass-card">
+      <h2>Contact Me</h2>
+      <form class="contact-form" onsubmit="submitContactForm(event)">
+        <label for="name">Name</label>
+        <input type="text" id="name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+
+        <label for="message">Message</label>
+        <textarea id="message" rows="4" required></textarea>
+
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 Neelima. All rights reserved.</p>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
